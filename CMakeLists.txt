@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.8)
+project(DUPa)
+set(EXECUTABLE ${PROJECT_NAME})
+add_subdirectory(lib)
+add_executable(${EXECUTABLE} ElienVader.cpp ${BOX2D_SOURCE_FILES})
+target_include_directories(${EXECUTABLE} PUBLIC lib/include)
+target_link_libraries(${EXECUTABLE} PUBLIC box2d glfw imgui sajson glad)
