@@ -1,12 +1,24 @@
-#include <box2d/box2d.h>
+#include <SFML/Graphics.hpp>
 
-int main(int argc, char* argv[])
+int main()
 {
-        
-	b2Vec2 gravity(0.0f, -10.f);
-	b2World world(gravity);
-	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0.0f, -10.0f);
+    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+    sf::CircleShape shape(100.f);
+    shape.setFillColor(sf::Color::Green);
 
-	return 0;
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear();
+        window.draw(shape);
+        window.display();
+    }
+
+    return 0;
 }
