@@ -7,7 +7,7 @@
 ```bash
 mkdir SFML-build
 cd SFML-build
-cmake ../SFML-build
+cmake ../SFML
 cmake --build .
 ```
 
