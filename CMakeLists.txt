@@ -1,11 +1,16 @@
 cmake_minimum_required(VERSION 3.8)
-project(DUPa)
-set(EXECUTABLE ${PROJECT_NAME})
+project(Dupa)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+
+set(SFML_STATIC_LIBRARIES TRUE)
 add_subdirectory(SFML)
-include_directories(SFML/include)
+
 file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true code/*.h code/*.cpp)
-add_executable(${EXECUTABLE} ${SOURCES})
-set(SFML_DIR SFML-build)
-find_package(SFML 2 REQUIRED network audio graphics window system)
-target_link_libraries(${EXECUTABLE} sfml-graphics sfml-window sfml-system)
-target_include_directories(${EXECUTABLE} PUBLIC ${SFML_INCLUDE_DIR})
+add_executable(${PROJECT_NAME} ${SOURCES})
+target_link_libraries(${PROJECT_NAME}
+        sfml-graphics
+        sfml-system
+        sfml-window)

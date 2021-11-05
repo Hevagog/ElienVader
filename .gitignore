@@ -1,3 +1,5 @@
 /build
-/SFML-build
+/SFML
 /.vscode
+/lib
+/bin
