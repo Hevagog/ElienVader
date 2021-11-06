@@ -2,9 +2,18 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(1000, 1000), "SFML works!");
     sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    shape.setPosition({0, 200});
+
+    sf::CircleShape shape1(100.f);
+    shape1.setPosition({0, 400});
+
+    sf::RectangleShape shape2({700, 200});
+    shape2.setPosition({100, 300});
+
+    sf::CircleShape shape3(100.f);
+    shape3.setPosition({700, 300});
 
     while (window.isOpen())
     {
@@ -17,6 +26,9 @@ int main()
 
         window.clear();
         window.draw(shape);
+        window.draw(shape1);
+        window.draw(shape2);
+        window.draw(shape3);
         window.display();
     }
 
