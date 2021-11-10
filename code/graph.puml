@@ -1,0 +1,14 @@
+@startuml Pupcia
+
+class Player{
+}
+
+class Enemy{
+}
+
+class Game{
+
+}
+
+
+@enduml
