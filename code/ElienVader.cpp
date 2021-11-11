@@ -1,79 +1,101 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-class Player{
-        float speed,positionX;
-        int sizeX,lives;
+
+class Player : public sf::Drawable {
+        float speed;
+        int lives;
     public:
+        float sizeX,positionX;
         Player()
         {   
             lives=3;
             sizeX = 100;
-            speed = 5.0f;
-            positionX = 0.f;
+            speed = 0.5f;
+            positionX = 500-sizeX/2;
         }
-
-        void check_input();
+        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+        void process_events(sf::Event& event);
         void move_player();
-        void display_player();
-
+        void check_colision(int width);
+        void process_event(sf::Event event);
 };
 
-void Player::display_player()
+void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    sf::RectangleShape player({100, 50});
+    sf::CircleShape a(100);
+    target.draw(a, states);
+}
+
+void Player::process_event(sf::Event event)
+{
+    if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::Key::A) {
+            //Do something
+        }
+
+    }
+}
+
+void Player::check_colision(int width)
+{
+    if(positionX+sizeX==width){
+        positionX--;
+    }
+     if(positionX==0){
+        positionX++;
+    }
+}
+
+class Game
+{
+    private:
+        static const int window_width  = 1000;
+        static const int window_height = 1000;
+        sf::RenderWindow window;
+        Player player;
+    public:
+        Game(): window(sf::VideoMode(1000,1000),"ElienVader", sf::Style::Close)
+        {
+        }
+
+        void run();
+        void process_event();
+};
+
+void Game::run(){
+    
+    while (window.isOpen() )
+    {
+        process_event();
+        /*player.check_input();
+        player.check_colision(window_width);
+        character.setPosition(player.positionX,900);
+        window.draw(shape);
+        window.draw(shape1);
+        window.draw(shape2);
+        window.draw(shape3);
+        window.draw(character);*/
+        window.clear();
+        window.draw(player);
+        window.display();
+    }
     
 }
 
-void Player::check_input()
-{
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)))
+void Game::process_event(){
+    sf::Event event;
+    while (window.pollEvent(event))
     {
-        std::cout<<"Aa"<<std::endl;
-    }
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)))
-    {
-        std::cout<<"BBB"<<std::endl;
-    }
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-    {
-        
+        if (event.type == sf::Event::Closed)
+            window.close();
+        player.process_event(event);
     }
 }
 
 int main()
 {
-    Player player;
-    sf::RenderWindow window(sf::VideoMode(1000, 1000), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setPosition({0, 200});
-
-    sf::CircleShape shape1(100.f);
-    shape1.setPosition({0, 400});
-
-    sf::RectangleShape shape2({700, 200});
-    shape2.setPosition({100, 300});
-
-    sf::CircleShape shape3(100.f);
-    shape3.setPosition({700, 300});
-
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-        player.check_input();
-        player.display_player();
-        window.clear();
-        window.draw(shape);
-        window.draw(shape1);
-        window.draw(shape2);
-        window.draw(shape3);
-        window.display();
-    }
-
+    Game game;
+    game.run();
     return 0;
 }
