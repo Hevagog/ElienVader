@@ -2,6 +2,7 @@
 #include <iostream>
 
 
+
 class Player : public sf::Drawable {
         float speed;
         int lives;
@@ -10,20 +11,20 @@ class Player : public sf::Drawable {
         Player()
         {   
             lives=3;
-            sizeX = 100;
-            speed = 0.5f;
+            sizeX = 50;
+            speed = 20.0f;
             positionX = 500-sizeX/2;
         }
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
         void process_events(sf::Event& event);
-        void move_player();
         void check_colision(int width);
         void process_event(sf::Event event);
 };
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    sf::CircleShape a(100);
+    sf::RectangleShape a({sizeX, sizeX/2});
+    a.setPosition(positionX,950);
     target.draw(a, states);
 }
 
@@ -31,21 +32,30 @@ void Player::process_event(sf::Event event)
 {
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Key::A) {
+            positionX-=1*speed;
+        }
+        if (event.key.code == sf::Keyboard::Key::D) {
+            positionX+=1*speed;
+        }
+        if (event.key.code == sf::Keyboard::Key::Space) {
             //Do something
         }
-
     }
 }
 
 void Player::check_colision(int width)
 {
-    if(positionX+sizeX==width){
-        positionX--;
+    if(positionX+sizeX>=width){
+        positionX -= 1*speed;
     }
-     if(positionX==0){
-        positionX++;
+     if(positionX<=0){
+        positionX += 1*speed;
     }
 }
+
+class Enemy : public sf::Drawable, public Player{
+    //TODO
+};
 
 class Game
 {
@@ -58,24 +68,17 @@ class Game
         Game(): window(sf::VideoMode(1000,1000),"ElienVader", sf::Style::Close)
         {
         }
-
         void run();
         void process_event();
 };
 
+
 void Game::run(){
     
-    while (window.isOpen() )
+    while (window.isOpen())
     {
         process_event();
-        /*player.check_input();
         player.check_colision(window_width);
-        character.setPosition(player.positionX,900);
-        window.draw(shape);
-        window.draw(shape1);
-        window.draw(shape2);
-        window.draw(shape3);
-        window.draw(character);*/
         window.clear();
         window.draw(player);
         window.display();
