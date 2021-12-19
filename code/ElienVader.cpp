@@ -3,10 +3,10 @@
 
 class Projectile : public sf::Drawable{
         float speed,radius,dmg;
-        int positionY,positionX;
+        float positionY,positionX;
         bool side;
     public:
-        Projectile(float damage,int initial_position,bool is_my_side)
+        Projectile(float damage,float initial_position,bool is_my_side)
         {
             positionX = initial_position;
             positionY = 0;
@@ -30,12 +30,13 @@ void Projectile::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void Projectile::move()
 {
     if(side)
-        positionY += 1.0*speed;
+        positionY += 1*speed;
     else
-        positionY -= 1.0*speed;
+        positionY -= 1*speed;
 }
 void Projectile::impact()
 {
+    //delete projectile;
     //if(positionY>=1000||positionY<=0)
 }
 
@@ -79,7 +80,8 @@ void Player::process_event(sf::Event event)
             positionX+=1*speed;
         }
         if (event.key.code == sf::Keyboard::Key::Space && cooldown) {
-            shot=1;            
+            Projectile* projectile = new Projectile(1,positionX,1); 
+
         }
     }
 }
