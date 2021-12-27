@@ -1,41 +1,44 @@
 #pragma once
 #include "SFML/Graphics.hpp"
+#include "Object.hpp"
 
-class Projectile : public sf::Drawable{
-        float speed,radius,dmg;
-        float positionY,positionX;
+class Projectile : public Object{
+    private:
+        float speed,radius,damage;
         bool side;
+        
     public:
-        Projectile(float damage,float initial_position,bool is_my_side)
-        {
-            positionX = initial_position;
-            positionY = 0;
-            speed = 18.0f;
-            radius = 5.0;
-            dmg = damage;
-            side = is_my_side;
-        }
-        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-        void move();// maybe move to draw function??
-        void impact(); // _logic & functionality TBD_
+        Projectile(bool is_my_side,float initial_x,float initial_y);
+        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+        virtual void update(sf::Time dt) override;
+
+        bool impact();        
+        sf::CircleShape shape;
 };
+
+Projectile::Projectile(bool is_my_side,float initial_x,float initial_y) : speed(10000.f), damage(1),radius(5.0f)
+{ 
+    side = is_my_side;
+    shape.setRadius (radius);
+    Transformable::setPosition(initial_x,initial_y);
+}
 
 void Projectile::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    sf::CircleShape p(radius);
-    p.setPosition(positionX,positionY);
-    target.draw(p,states);
+    target.draw(shape,states);
 }
 
-void Projectile::move()
+bool Projectile::impact()
 {
-    if(side)
-        positionY += 1*speed;
-    else
-        positionY -= 1*speed;
+    float pos_y = Transformable::getPosition().y;
+    return (pos_y>=1000||pos_y<0) ? true : false;
 }
-void Projectile::impact()
+
+void Projectile::update(sf::Time dt)
 {
-    //delete projectile;
-    //if(positionY>=1000||positionY<=0)
+    shape.setPosition(Transformable::getPosition());
+    if(side)
+        Transformable::move(sf::Vector2f(0, -speed) * dt.asSeconds());
+    else
+        Transformable::move(sf::Vector2f(0, speed) * dt.asSeconds());
 }
