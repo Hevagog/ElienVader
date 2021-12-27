@@ -19,7 +19,7 @@ class Enemy : public Object {
         void attack();
 };
 
-Enemy::Enemy(/*int offset_x*/) : speed( 8000.f), range(1000.f), direction(true)
+Enemy::Enemy(/*int offset_x*/) : speed( 300.f), range(1000.f), direction(true)
 {
     shape.setPointCount(8);
     shape.setPoint(0, {0, 30});
@@ -54,11 +54,11 @@ void Enemy::update(sf::Time dt)
 {   
     shape.setPosition(Transformable::getPosition());
     if(Transformable::getPosition().x < 0 ){
-        direction = direction ? false : true;
+        direction = true;
         Transformable::move(sf::Vector2f(0,20));
     }
     if(Transformable::getPosition().x+30 > 1000){
-        direction = direction ? false : true;
+        direction = false;
         Transformable::move(sf::Vector2f(-10,20));
     }
     

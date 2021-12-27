@@ -28,7 +28,7 @@ class Player : public Object {
         unsigned int cooldown,timer;  
 };
 
-Player::Player() : speed(10000.f), lives(3), cooldown(60),timer(cooldown)
+Player::Player() : speed(1000.f), lives(3), cooldown(60),timer(cooldown)
 {   
     shape.setPointCount(8);
     shape.setPoint(0, {0, 30});

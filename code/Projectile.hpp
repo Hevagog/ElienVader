@@ -16,7 +16,7 @@ class Projectile : public Object{
         sf::CircleShape shape;
 };
 
-Projectile::Projectile(bool is_my_side,float initial_x,float initial_y) : speed(10000.f), damage(1),radius(5.0f)
+Projectile::Projectile(bool is_my_side,float initial_x,float initial_y) : speed(1000.f), damage(1),radius(5.0f)
 { 
     side = is_my_side;
     shape.setRadius (radius);
